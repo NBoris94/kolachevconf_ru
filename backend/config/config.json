@@ -1,0 +1,26 @@
+{
+    "development": {
+        "username": "root",
+        "password": "1Q2w3e4R_!",
+        "database": "kolachevconfDb",
+        "host": "localhost",
+        "dialect": "mysql",
+        "port": 3306
+    },
+    "test": {
+        "username": "root",
+        "password": "1Q2w3e4R_!",
+        "database": "kolachevconfDb",
+        "host": "localhost",
+        "dialect": "mysql",
+        "port": 3306
+    },
+    "production": {
+        "username": "root",
+        "password": "1Q2w3e4R_!",
+        "database": "kolachevconfDb",
+        "host": "localhost",
+        "dialect": "mysql",
+        "port": 3306
+    }
+}
