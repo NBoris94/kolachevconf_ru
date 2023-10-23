@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 import type { Metadata } from 'next'
-import {Inter, Montserrat, Open_Sans} from 'next/font/google'
+import { Open_Sans } from 'next/font/google'
 import {Providers} from './providers'
 
 const font = Open_Sans({ subsets: ['latin', 'cyrillic'] })
@@ -19,9 +19,7 @@ export default function RootLayout(
     return (
         <html lang="ru">
             <body className={font.className}>
-                <Providers>
-                    {children}
-                </Providers>
+                <Providers>{children}</Providers>
             </body>
         </html>
     )

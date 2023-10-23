@@ -15,7 +15,7 @@ const SidebarLink: FC<SidebarLinkProps> = (
     const [isActive, setIsActive] = useState<boolean>(href === pathname)
 
     useEffect(() => {
-        setIsActive(href === pathname)
+        setIsActive(pathname.startsWith(href))
     }, [pathname])
 
     return (

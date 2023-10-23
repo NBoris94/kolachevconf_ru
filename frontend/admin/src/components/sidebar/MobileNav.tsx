@@ -1,3 +1,5 @@
+'use client'
+
 import {FC} from 'react'
 import {MobileNavProps} from './Sidebar.interfaces'
 import {
@@ -14,6 +16,10 @@ import {
 } from '@chakra-ui/react'
 import {FiBell, FiChevronDown, FiMenu} from 'react-icons/fi'
 import {Box} from '@chakra-ui/layout'
+import {useAppSelector} from '@/redux/store'
+import {selectCurrentUser} from '@/redux/features/authSlice'
+import {useAppDispatch} from '@/redux/store'
+import {logout} from '@/redux/features/authSlice'
 
 const MobileNav: FC<MobileNavProps> = (
     {
@@ -21,6 +27,9 @@ const MobileNav: FC<MobileNavProps> = (
         ...rest
     }
 ) => {
+    const dispatch = useAppDispatch()
+    const user = useAppSelector(selectCurrentUser)
+
     return (
         <Flex
             ml={{ base: 0, md: 60 }}
@@ -56,16 +65,14 @@ const MobileNav: FC<MobileNavProps> = (
                             <HStack>
                                 <Avatar
                                     size={'sm'}
-                                    src={
-                                        'https://images.unsplash.com/photo-1619946794135-5bc917a27793?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9'
-                                    }
+                                    name={user?.username}
                                 />
                                 <VStack
                                     display={{ base: 'none', md: 'flex' }}
                                     alignItems="flex-start"
                                     spacing="1px"
                                     ml="2">
-                                    <Text fontSize="sm">Justina Clark</Text>
+                                    <Text fontSize="sm">{user?.username}</Text>
                                     <Text fontSize="xs" color="gray.600">
                                         Admin
                                     </Text>
@@ -80,7 +87,7 @@ const MobileNav: FC<MobileNavProps> = (
                             borderColor={useColorModeValue('gray.200', 'gray.700')}>
                             <MenuItem>Настройки</MenuItem>
                             <MenuDivider />
-                            <MenuItem>Выйти</MenuItem>
+                            <MenuItem as="button" onClick={() => dispatch(logout())}>Выйти</MenuItem>
                         </MenuList>
                     </Menu>
                 </Flex>

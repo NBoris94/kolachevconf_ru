@@ -1,6 +1,6 @@
 import {Injectable, NotFoundException} from '@nestjs/common'
 import {InjectModel} from '@nestjs/sequelize'
-import {col, fn, Op, where} from 'sequelize'
+import {col, fn, Op, OrderItem, where} from 'sequelize'
 import {Participant} from './participants.model'
 import {CreateParticipantDto} from './dto/create-participant.dto'
 import {UpdateParticipantDto} from './dto/update-participant.dto'
@@ -24,7 +24,8 @@ export class ParticipantsService {
         const itemPerPage = 10
         const limit = Number(query.limit)
         const offset = itemPerPage * Number(query.offset)
-        const whereOptions = query.search
+        const sectionResult = query.sectionId ? { sectionId: query.sectionId } : {}
+        const searchResult = query.search
             ? {
                 [Op.or]: [
                     { title: where(fn('LOWER', col('title')), 'LIKE', `%${query.search.toLowerCase()}%`) },
@@ -37,8 +38,16 @@ export class ParticipantsService {
                     { phone: where(fn('LOWER', col('phone')), 'LIKE', `%${query.search.toLowerCase()}%`) }
                 ]
             }
-            : null
-        return this.participantModel.findAndCountAll({ limit, offset, where: { ...whereOptions }, include: [Form, Section] })
+            : {}
+
+        const whereOptions = { ...sectionResult, ...searchResult }
+        let sortResult: OrderItem = query.sort && query.orderBy ? [query.sort, query.orderBy] : ['createdAt', 'DESC']
+
+        if (query.sort === 'section') {
+            sortResult = [{model: Section, as: 'section'}, 'name', query.orderBy]
+        }
+
+        return this.participantModel.findAndCountAll({ limit, offset, include: [Form, Section], where: { ...whereOptions }, order: [sortResult] })
     }
 
     async findById(id: number): Promise<Participant> {

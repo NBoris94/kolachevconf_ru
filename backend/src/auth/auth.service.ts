@@ -5,6 +5,7 @@ import {compare, hash} from 'bcrypt'
 import {JwtService} from '@nestjs/jwt'
 import {ConfigService} from '@nestjs/config'
 import {CreateUserDto} from '../users/dto/create-user.dto'
+import {User} from '../users/users.model'
 
 @Injectable()
 export class AuthService {
@@ -49,7 +50,7 @@ export class AuthService {
             throw new UnauthorizedException(USER_PASSWORD_ERROR)
         }
 
-        return { id: user.id, email: user.email }
+        return { id: user.id, email: user.email, username: user.name }
     }
 
     async refreshTokens(id: number, refreshToken: string) {
@@ -67,13 +68,19 @@ export class AuthService {
 
         const tokens = await this.getTokens(user.id, user.email)
         await this.updateRefreshToken(user.id, tokens.refreshToken)
+
         return tokens
     }
 
-    async login(id: number, email: string) {
-        const tokens = await this.getTokens(id, email)
-        await this.updateRefreshToken(id, tokens.refreshToken)
-        return tokens
+    async login(user: User) {
+        const tokens = await this.getTokens(user.id, user.email)
+
+        await this.updateRefreshToken(user.id, tokens.refreshToken)
+
+        return {
+            user,
+            tokens
+        }
     }
 
     async logout(id: number) {

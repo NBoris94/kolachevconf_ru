@@ -26,6 +26,7 @@ module.exports = (sequelize, DataTypes) => {
         phone: DataTypes.STRING,
         email: DataTypes.STRING,
         file: DataTypes.STRING,
+        reqStatus: DataTypes.STRING,
         sectionId: {
             type: DataTypes.INTEGER,
             references: {

@@ -5,7 +5,7 @@ import {
     HttpCode,
     HttpStatus,
     Post,
-    Req,
+    Req, Res,
     UseGuards,
     UsePipes,
     ValidationPipe
@@ -13,7 +13,7 @@ import {
 import {AuthService} from './auth.service'
 import {AuthDto} from './dto/auth.dto'
 import {User} from '../users/users.model'
-import {Request} from 'express'
+import {Request, Response} from 'express'
 import {AccessTokenGuard} from '../common/guards/acces-token.guard'
 import {RefreshTokenGuard} from '../common/guards/refresh-token.guard'
 
@@ -26,7 +26,8 @@ export class AuthController {
     @Post('login')
     async login(@Body() { email, password }: AuthDto) {
         const user: User = await this.authService.validateUser(email, password)
-        return this.authService.login(user.id as number, user.email)
+
+        return this.authService.login(user)
     }
 
     @UseGuards(AccessTokenGuard)

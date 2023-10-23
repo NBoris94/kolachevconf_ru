@@ -51,4 +51,7 @@ export class Participant extends Model {
 
     @Column({ allowNull: false })
     file: string
+
+    @Column
+    reqStatus?: string
 }
