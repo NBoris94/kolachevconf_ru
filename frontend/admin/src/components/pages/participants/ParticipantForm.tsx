@@ -1,15 +1,15 @@
 'use client'
 
-import {Card, CardBody} from '@chakra-ui/card'
-import {CardFooter, FormControl, FormErrorMessage, FormLabel, Input, Select, Textarea} from '@chakra-ui/react'
-import {Flex} from '@chakra-ui/layout'
-import {Button} from '@chakra-ui/button'
+import { FC } from 'react'
+import { Card, CardBody } from '@chakra-ui/card'
+import { CardFooter, FormControl, FormErrorMessage, FormLabel, Input, Select, Textarea } from '@chakra-ui/react'
+import { Flex } from '@chakra-ui/layout'
+import { Button } from '@chakra-ui/button'
+import { Field, Form, Formik, FormikHelpers } from 'formik'
+import { INITIAL_FORM_STATE } from '@/components/pages/participants/Participants.constants'
+import { ParticipantFormProps, ParticipantFormState } from '@/components/pages/participants/Participants.interfaces'
+import { IParticipant } from '@/interfaces/participants'
 import Link from 'next/link'
-import {Field, Form, Formik, FormikHelpers} from 'formik'
-import {INITIAL_FORM_STATE} from '@/components/pages/participants/Participants.constants'
-import {ParticipantFormProps, ParticipantFormState} from '@/components/pages/participants/Participants.interfaces'
-import {FC} from 'react'
-import {IParticipant} from '@/interfaces/participants'
 
 
 const ParticipantForm: FC<ParticipantFormProps> = (

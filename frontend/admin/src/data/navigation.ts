@@ -36,7 +36,7 @@ export const navCategories: ILinkCategory[] = [
                 href: '/admin/sections',
             },
             {
-                name: 'Организаторы',
+                name: 'Сотрудники',
                 icon: FaPeopleGroup,
                 href: '/admin/employees',
             }

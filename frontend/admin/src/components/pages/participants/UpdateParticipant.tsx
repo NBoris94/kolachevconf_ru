@@ -9,8 +9,6 @@ import {useGetParticipantQuery, useUpdateParticipantMutation} from '@/redux/serv
 import {useRouter} from 'next/navigation'
 import {ParticipantFormState, UpdateParticipantProps} from '@/components/pages/participants/Participants.interfaces'
 import {IParticipant} from '@/interfaces/participants'
-import {resetParticipantsFilter} from '@/redux/features/participantsSlice'
-import {useAppDispatch} from '@/redux/store'
 import {FC} from 'react'
 
 const UpdateParticipant: FC<UpdateParticipantProps> = (
@@ -19,7 +17,6 @@ const UpdateParticipant: FC<UpdateParticipantProps> = (
     }
 ) => {
     const router = useRouter()
-    const dispatch = useAppDispatch()
     const { data: participant, isLoading : isGetParticipantLoading, error: getParticipantError } = useGetParticipantQuery(id)
     const [updateParticipant, {isLoading, error}] = useUpdateParticipantMutation()
 

@@ -21,12 +21,14 @@ export class SectionsController {
 
     constructor(private readonly sectionsService: SectionsService ) {}
 
+    @UseGuards(AccessTokenGuard)
     @HttpCode(HttpStatus.OK)
     @Get()
     async findAll() {
         return this.sectionsService.findAll()
     }
 
+    @UseGuards(AccessTokenGuard)
     @HttpCode(HttpStatus.OK)
     @Get(':id')
     async findById(@Param('id') id: number) {

@@ -1,4 +1,4 @@
-import {BelongsToMany, Column, HasMany, Model, Table} from 'sequelize-typescript'
+import {BelongsToMany, Column, ForeignKey, HasMany, Model, Table} from 'sequelize-typescript'
 import {EmployeeSection} from '../common/models/employee-section.model'
 import {Participant} from '../participants/participants.model'
 import {Employee} from '../employees/employees.model'

@@ -18,7 +18,7 @@ export class EmployeesService {
     ) {}
 
     async findAll(options?: FindOptions): Promise<Employee[]> {
-        return this.employeeModel.findAll(options)
+        return this.employeeModel.findAll({ ...options, order: [['surname', 'ASC']] })
     }
 
     async findById(id: number): Promise<Employee> {

@@ -34,6 +34,7 @@ export class ParticipantsController {
         return this.participantsService.findAllWithFilter(query)
     }
 
+    @UseGuards(AccessTokenGuard)
     @HttpCode(HttpStatus.OK)
     @Get(':id')
     async findById(@Param('id') id: number){

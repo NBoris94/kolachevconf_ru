@@ -15,7 +15,7 @@ import {resetParticipantsFilter} from '@/redux/features/participantsSlice'
 const CreateParticipant = () => {
     const router = useRouter()
     const dispatch = useAppDispatch()
-    const [addParticipant, {isLoading, error}] = useAddParticipantMutation()
+    const [ addParticipant, { isLoading, error } ] = useAddParticipantMutation()
     const handleSubmit = (participant: ParticipantFormState | IParticipant) => {
         addParticipant(participant).then(() => {
             if (!error) {

@@ -1,6 +1,6 @@
 import {IParticipant, IStatus} from '@/interfaces/participants'
-import {FetchBaseQueryError} from '@reduxjs/toolkit/query'
 import {SerializedError} from '@reduxjs/toolkit'
+import {FetchBaseQueryError} from '@reduxjs/toolkit/query'
 
 export interface ParticipantFormState {
     id?: number
