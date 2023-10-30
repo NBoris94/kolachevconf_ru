@@ -22,8 +22,6 @@ const baseQueryWithReauth = async (args: any, api: any, extraOptions: any) => {
     let result = await baseQuery(args, api, extraOptions)
 
     if (result?.error?.status === 401) {
-
-        // send refresh token to get new access token
         const refreshResult = await baseQuery({
             url: '/auth/refresh',
             method: 'GET',
@@ -34,8 +32,7 @@ const baseQueryWithReauth = async (args: any, api: any, extraOptions: any) => {
 
         if (refreshResult?.data) {
             const user: IUser = api.getState().auth.user
-            console.log(refreshResult.data)
-            // store the new token
+
             api.dispatch(setCredentials({ tokens: refreshResult.data, user } as UserResponse))
 
             result = await baseQuery(args, api, extraOptions)
@@ -50,6 +47,6 @@ const baseQueryWithReauth = async (args: any, api: any, extraOptions: any) => {
 export const api = createApi({
     reducerPath: 'api',
     baseQuery: baseQueryWithReauth,
-    tagTypes: ['Participants', 'Employees', 'Sections', 'Auth'],
+    tagTypes: ['Participants', 'Employees', 'Sections', 'Groups', 'Forms', 'Information', 'Auth'],
     endpoints: () => ({}),
 })

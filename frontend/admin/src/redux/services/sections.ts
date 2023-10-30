@@ -14,7 +14,7 @@ export const sectionsApi = api.injectEndpoints({
         }),
 
         getSection: build.query<ISection, number>({
-            query: (id) => `sections/${id}`,
+            query: (id) => `/sections/${id}`,
             providesTags: (_section, _err, id) => [{ type: 'Sections', id }],
         }),
 

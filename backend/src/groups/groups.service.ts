@@ -1,6 +1,7 @@
 import {Injectable, NotFoundException} from '@nestjs/common'
 import {InjectModel} from '@nestjs/sequelize'
 import {Group} from './groups.model'
+import {EmployeeGroup} from '../common/models/employee-group.model'
 import {CreateGroupDto} from './dto/create-group.dto'
 import {UpdateGroupDto} from './dto/update-group.dto'
 import {NOT_FOUND_GROUP_ERROR} from './groups.constants'
@@ -16,6 +17,10 @@ export class GroupsService {
     constructor(
         @InjectModel(Group)
         private readonly groupModel: typeof Group,
+
+        @InjectModel(EmployeeGroup)
+        private readonly employeeGroupModel: typeof EmployeeGroup,
+
         private readonly employeesService: EmployeesService
     ) {}
 
@@ -45,10 +50,6 @@ export class GroupsService {
         const { employeeIds, ...rest } = dto
         const employees = await this.employeesService.findAll({ where: { id: { [Op.in]: employeeIds } } })
 
-        if (employees.length === 0) {
-            throw new NotFoundException(NOT_FOUND_EMPLOYEES_ERROR)
-        }
-
         const [affectedRows] = await this.groupModel.update(rest, { where: { id } })
 
         if (affectedRows === 0) {
@@ -62,6 +63,7 @@ export class GroupsService {
     }
 
     async delete(id: number) {
+        const deleteEmployeeGroups = await this.employeeGroupModel.destroy({ where: { groupId: id } })
         const deletedGroup = await this.groupModel.destroy({ where: { id } })
 
         if (deletedGroup === 0) {

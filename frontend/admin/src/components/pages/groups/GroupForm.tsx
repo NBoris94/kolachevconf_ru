@@ -4,14 +4,14 @@ import { FC } from "react"
 import { FormikHelpers } from "formik"
 import { Card, CardBody, CardFooter, Flex, Button, FormControl, FormErrorMessage, FormLabel, Input, Text, Checkbox } from "@chakra-ui/react"
 import { Field, Form, Formik } from "formik"
-import { SectionFormProps, SectionFormState } from "./Sections.interfaces"
-import { INITIAL_FORM_STATE } from "./Sections.constants"
+import { GroupFormProps, GroupFormState } from "./Groups.interfaces"
+import { INITIAL_FORM_STATE } from "./Groups.constants"
 import { useGetEmployeesQuery } from "@/redux/services/employees"
 import Link from "next/link"
 
-const SectionForm: FC<SectionFormProps> = (
+const GroupForm: FC<GroupFormProps> = (
     {
-        section,
+        group,
         isLoading,
         error,
         onSubmit
@@ -19,7 +19,7 @@ const SectionForm: FC<SectionFormProps> = (
 ) => {
     const { data: employees, isLoading: isEmployeesLoading, error: employeesError } = useGetEmployeesQuery()
 
-    const handleSubmit = (values: SectionFormState, actions: FormikHelpers<SectionFormState>) => {
+    const handleSubmit = (values: GroupFormState, actions: FormikHelpers<GroupFormState>) => {
         onSubmit({ ...values, employeeIds: values.employeeIds.map((id) => Number(id)) })
         actions.setSubmitting(false)
     }
@@ -28,18 +28,18 @@ const SectionForm: FC<SectionFormProps> = (
         <Card borderRadius="xl">
             <Formik
                 initialValues={
-                    section ? { id: section.id, name: section.name, employeeIds: section.employees.map((e) => e.id) } : INITIAL_FORM_STATE
+                    group ? { id: group.id, title: group.title, employeeIds: group.employees.map((e) => e.id) } : INITIAL_FORM_STATE
                 }
                 onSubmit={handleSubmit}
             >
                 {(props) => (
                     <Form>
                         <CardBody>
-                            <Field name="name" disabled={isLoading}>
+                            <Field name="title" disabled={isLoading}>
                                 {({ field, form }: any) => (
                                     <FormControl isRequired mb="2">
-                                        <FormLabel>Название Секции</FormLabel>
-                                        <Input {...field} placeholder="Секция №1. Информатика, вычислительная техника и управление" />
+                                        <FormLabel>Название Группы</FormLabel>
+                                        <Input {...field} placeholder="Состав рабочей группы Конференции" />
                                         <FormErrorMessage>{form.errors.name}</FormErrorMessage>
                                     </FormControl>
                                 )}
@@ -67,7 +67,7 @@ const SectionForm: FC<SectionFormProps> = (
                                                         <FormControl mb="2">
                                                             <Checkbox
                                                                 {...field}
-                                                                defaultChecked={section?.employees.map((e) => e.id).includes(employee.id)}
+                                                                defaultChecked={group?.employees.map((e) => e.id).includes(employee.id)}
                                                                 onChange={(e) => {
                                                                     if (e.target.checked) {
                                                                         form.setFieldValue("employeeIds", [...form.values.employeeIds, employee.id])
@@ -101,7 +101,7 @@ const SectionForm: FC<SectionFormProps> = (
                                 </Button>
                                 <Button
                                     as={Link}
-                                    href="/admin/sections"
+                                    href="/admin/groups"
                                     borderRadius="full"
                                 >
                                     Отмена
@@ -115,4 +115,4 @@ const SectionForm: FC<SectionFormProps> = (
     )
 }
 
-export default SectionForm
+export default GroupForm

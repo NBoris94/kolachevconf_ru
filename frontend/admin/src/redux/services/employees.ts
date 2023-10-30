@@ -14,7 +14,7 @@ export const employeesApi = api.injectEndpoints({
         }),
 
         getEmployee: build.query<IEmployee, number>({
-            query: (id) => `employees/${id}`,
+            query: (id) => `/employees/${id}`,
             providesTags: (_employee, _err, id) => [{ type: 'Employees', id }],
         }),
 
